@@ -141,4 +141,4 @@ class Gui(object):
         self.teaspoon_number_text.set(str(self.teaspoon_number) + " Teaspoon(es)")
 
 
-myGui = Gui()
+#myGui = Gui()
