@@ -1,14 +1,17 @@
 from sanic import Sanic
-from sanic.response import json
+from sanic.response import json, html
+from threading import Thread
 from dispenser import TestDispenser, Dispenser
 import os
 import atexit
-from gui import Spices, Gui
+
 # from slot_select import SLOT_SELECT
 
 app = Sanic()
 dispenser = None
 
+with open('web.html', 'r') as f:
+    html_data = f.read()
 
 @app.route('/api/ls')
 async def ls(req):
@@ -34,22 +37,25 @@ async def dispense(req, slot_id, amount):
 
 
 @app.route("/")
-async def test(request):
+async def default_route(req):
     # This route could be useful for debugging by displaying all information as a web page.
-    return json({"hello": "world"})
+    return html(html_data)
+
+def gui_loop(disp):
+    my_gui - Gui
+    
+    while True:
+        if my_gui.ready_to_dispense:
+            disp.dispense(my_gui.get_slot_id, my_gui.get_amount_in_grams)
+            my_gui.dispencsing_flag = False
 
 
 if __name__ == "__main__":
-    if os.uname()[1] == 'raspberrypi':
+    if os.uname()[1] == 'pestle-spice-dispenser':
         dispenser = Dispenser()
     else:
         # This is a test running on a desktop
         dispenser = TestDispenser()
-
-    myGui = Gui
-    if myGui.ready_to_dispense:
-        dispenser.dispense(myGui.get_slot_id, myGui.get_amount_in_grams)
-        myGui.dispensing_flag = False
 
     atexit.register(lambda: dispenser.clean_and_exit())
     app.run(host="0.0.0.0", port=8000)
