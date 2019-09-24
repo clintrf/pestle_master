@@ -1,5 +1,18 @@
 import sys
+import os
+import time
 
+if os.uname()[1] == 'pestle-spice-dispenser':
+    from hx711 import HX711
+    import RPi.GPIO as GPIO
+    
+# Pins are in GPIO.BCM mode
+ENB12 = 26
+INPUT1 = 19
+INPUT2 = 13
+ENB34 = 21
+INPUT3 = 20
+INPUT4 = 16
 
 class DispenserInterface(object):
     def clean_and_exit(self):
@@ -28,10 +41,16 @@ class TestDispenser(DispenserInterface):
 
 class Dispenser(DispenserInterface):
     def __init__(self):
-        import RPi.GPIO as GPIO
-        from hx711 import HX711
         # Set the pins for the scale. Pins are in GPIO.BCM mode
         self._hx = HX711(5, 6)
+        
+        # Set and initialize the pins for the 2 motors
+        GPIO.setup(INPUT1 , GPIO.OUT, initial = GPIO.HIGH )
+        GPIO.setup(INPUT2 , GPIO.OUT, initial = GPIO.LOW )
+        GPIO.setup(INPUT3 , GPIO.OUT, initial = GPIO.HIGH )
+        GPIO.setup(INPUT4 , GPIO.OUT, initial = GPIO.LOW )
+        GPIO.setup(ENB12 , GPIO.OUT)
+        GPIO.setup(ENB34 , GPIO.OUT)
 
         # Set the read in format for first the Pi and then the Hx711 board (MSB/LSB most/least sig bit)
         self._hx.set_reading_format("MSB", "MSB")
@@ -53,9 +72,27 @@ class Dispenser(DispenserInterface):
         print('Bye!')
         sys.exit()
 
-    def dispense(self, slot_idx, amount):
-        val = self._hx.get_weight(2)
-        print(val)
+    def dispense(self, slot_idx, amount, timeout = 20):
+        print('Dispencing %0.2f grams from slot %d' % (amount, slot_idx))
+        
+        if slot_idx == 0 : #if its salt
+            motor_pin = ENB12
+        elif slot_idx == 1: # if its pepper
+            motor_pin = ENB34
+        else:
+            return 0
+        
+        begin = time.time()
+        morot = GPIO.PWM(motor_pin, 50) #pwm frequency: 50hz
+        self._hx.tare()
+        val = self._hx.get_weight(5)
+        while val <= amount and time.time() - begin < timeout:
+            val = self._hx.get_weight(5)
+            print(val)
+            motor.start(50) # duty cycle: check to see if it needs to go up
+        motor.stop()
+        self._hx.tare()
+        print("finished dispencing %0.2f grams of from slot %d" % (amount, slot_idx))
 
     def calibrate_in_grams(self, weight=100):
         self._hx.set_reference_unit(1)
