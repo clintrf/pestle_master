@@ -48,7 +48,7 @@ def test(amount = 0):
 if __name__ == "__main__":
     print('1')
     if os.uname()[1] == 'pestle-spice-dispenser':
-        dispenser = Dispenser()
+        dispenser = TestDispenser()
         
     else:
         # This is a test running on a desktop

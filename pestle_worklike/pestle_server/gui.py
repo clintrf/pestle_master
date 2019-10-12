@@ -34,7 +34,7 @@ class Gui(object):
         self.option_window.hide()  # hide this window for now
         self.dispensing_window = Window(self.option_window, title="Dispensing")
         self.dispensing_window.hide()  # hide this window for now
-        self.app.set_full_screen()
+        #self.app.set_full_screen()
         self.welcome_message = Text(self.app, text="Pestle Co.", size=40, font="Times New Roman", color="blue")
         self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start")
 
@@ -65,7 +65,7 @@ class Gui(object):
         # Helper functions: windows
     def open_option_window(self):
         self.option_window.show(wait=True)
-        self.option_window.set_full_screen()
+        #self.option_window.set_full_screen()
 
     def close_option_window(self):
         self.option_window.exit_full_screen()
@@ -74,7 +74,7 @@ class Gui(object):
 
     def open_dispensing_window(self):
         self.dispensing_window.show(wait=True)
-        self.dispensing_window.set_full_screen()
+        #self.dispensing_window.set_full_screen()
 
     def close_dispensing_window(self):
         self.dispensing_window.exit_full_screen()
@@ -83,36 +83,40 @@ class Gui(object):
 
     def open_salt_dispensing_window(self):
         self.dispensing_id_text = SALT_DISPENSING_TEXT
-        self.dispensing_text.set(self.dispensing_id_text)
+        #self.dispensing_text.set(self.dispensing_id_text)
         self.open_dispensing_window()
 
     def open_pepper_dispensing_window(self):
         self.dispensing_id_text = PEPPER_DISPENSING_TEXT
-        self.dispensing_text.set(self.dispensing_id_text)
+        #self.dispensing_text.set(self.dispensing_id_text)
         self.open_dispensing_window()
 
     # Helper functions: dispensing
     def add_a_smidgen(self):
         self.smidgen_number += 1
-        self.smidgen_number_text.set(str(self.smidgen_number) + " Smidgen(s)")
+        self.smidgen_number_text = str(self.smidgen_number) + "Smidgen(s)"
+        #self.smidgen_number_text.set(str(self.smidgen_number) + " Smidgen(s)")
         self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/SMIDGENS_PER_TEASPOON if self.dispensing_id == Spices.SALT \
             else GRAMS_PEPPER_PER_TEASPOON/SMIDGENS_PER_TEASPOON
 
     def add_a_pinch(self):
         self.pinch_number += 1
-        self.pinch_number_text.set(str(self.pinch_number) + " Pinch(es)")
+        #self.pinch_number_text.set(str(self.pinch_number) + " Pinch(es)")
+        self.pinch_number_text = str(self.pinch_number) + " Pinch(es)"
         self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/PINCHES_PER_TEASPOON if self.dispensing_id == Spices.SALT \
             else GRAMS_PEPPER_PER_TEASPOON/PINCHES_PER_TEASPOON
 
     def add_a_dash(self):
         self.dash_number += 1
-        self.dash_number_text.set(str(self.dash_number) + " Dash(es)")
+        #self.dash_number_text.set(str(self.dash_number) + " Dash(es)")
+        self.dash_number_text = str(self.dash_number) + " Dash(es)"
         self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/DASHES_PER_TEASPOON if self.dispensing_id == Spices.SALT \
             else GRAMS_PEPPER_PER_TEASPOON/DASHES_PER_TEASPOON
 
     def add_a_teaspoon(self):
         self.teaspoon_number += 1
-        self.teaspoon_number_text.set(str(self.teaspoon_number) + " Teaspoon(es)")
+        self.teaspoon_number_text = str(self.teaspoon_number) + " Teaspoon(es)"
+        #self.teaspoon_number_text.set(str(self.teaspoon_number) + " Teaspoon(es)")
         self.dispensing_amount += GRAMS_SALT_PER_TEASPOON if self.dispensing_id == Spices.SALT \
             else GRAMS_PEPPER_PER_TEASPOON
 

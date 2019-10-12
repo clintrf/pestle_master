@@ -27,14 +27,14 @@ class Gui(object):
         self.dispensing_amount = 0
         self.dispensing_flag = False
 
-        self.app = App(title="Pestle Co.")
+        self.app = App(title="Pestle Co.",height=200, width = 200)
         # All code must be added in th event loop
         # START
         self.option_window = Window(self.app, title="Choosing a spice")
         self.option_window.hide()  # hide this window for now
         self.dispensing_window = Window(self.option_window, title="Dispensing")
         self.dispensing_window.hide()  # hide this window for now
-        self.app.set_full_screen()
+        #self.app.set_full_screen()
         self.welcome_message = Text(self.app, text="Pestle Co.", size=40, font="Times New Roman", color="blue")
         self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start")
 
