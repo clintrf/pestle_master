@@ -83,12 +83,12 @@ class Gui(object):
 
     def open_salt_dispensing_window(self):
         self.dispensing_id_text = SALT_DISPENSING_TEXT
-        #self.dispensing_text.set(self.dispensing_id_text)
+        self.dispensing_text.clear()
+        self.dispensing_text.append(self.dispensing_id_text)
         self.open_dispensing_window()
 
     def open_pepper_dispensing_window(self):
         self.dispensing_id_text = PEPPER_DISPENSING_TEXT
-        #self.dispensing_text.set(self.dispensing_id_text)
         self.dispensing_text.clear()
         self.dispensing_text.append(self.dispensing_id_text)
         self.open_dispensing_window()
@@ -96,25 +96,29 @@ class Gui(object):
     # Helper functions: dispensing
     def add_a_smidgen(self):
         self.smidgen_number += 1
-        self.smidgen_number_text = str(self.smidgen_number) + "Smidgen(s)"
+        self.smidgen_number_text.clear()
+        self.smidgen_number_text.append(str(self.smidgen_number) + "Smidgen(s)")
         self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/SMIDGENS_PER_TEASPOON if self.dispensing_id == Spices.SALT \
             else GRAMS_PEPPER_PER_TEASPOON/SMIDGENS_PER_TEASPOON
 
     def add_a_pinch(self):
         self.pinch_number += 1
-        self.pinch_number_text = str(self.pinch_number) + " Pinch(es)"
+        self.pinch_number_text.clear()
+        self.pinch_number_text.append(str(self.pinch_number) + " Pinch(es)")
         self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/PINCHES_PER_TEASPOON if self.dispensing_id == Spices.SALT \
             else GRAMS_PEPPER_PER_TEASPOON/PINCHES_PER_TEASPOON
 
     def add_a_dash(self):
         self.dash_number += 1
-        self.dash_number_text = str(self.dash_number) + " Dash(es)"
+        self.dash_number_text.clear()
+        self.dash_number_text.append(str(self.dash_number) + " Dash(es)")
         self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/DASHES_PER_TEASPOON if self.dispensing_id == Spices.SALT \
             else GRAMS_PEPPER_PER_TEASPOON/DASHES_PER_TEASPOON
 
     def add_a_teaspoon(self):
         self.teaspoon_number += 1
-        self.teaspoon_number_text = str(self.teaspoon_number) + " Teaspoon(es)"
+        self.teaspoon_number_text.clear()
+        self.teaspoon_number_text.append(str(self.teaspoon_number) + " Teaspoon(es)")
         self.dispensing_amount += GRAMS_SALT_PER_TEASPOON if self.dispensing_id == Spices.SALT \
             else GRAMS_PEPPER_PER_TEASPOON
 
@@ -134,11 +138,15 @@ class Gui(object):
 
     def reset_measurement(self):
         self.smidgen_number = 0
-        self.smidgen_number_text = str(self.smidgen_number) + " Smidgen(s)"
+        self.smidgen_number_text.clear()
+        self.smidgen_number_text.append(str(self.smidgen_number) + " Smidgen(s)")
         self.pinch_number = 0
-        self.pinch_number_text = (str(self.pinch_number) + " Pinch(es)")
+        self.pinch_number_text.clear()
+        self.pinch_number_text.append(str(self.pinch_number) + " Pinch(es)")
         self.dash_number = 0
-        self.dash_number_text = (str(self.dash_number) + " Dash(es)")
+        self.dash_number_text.clear()
+        self.dash_number_text.append(str(self.dash_number) + " Dash(es)")
         self.teaspoon_number = 0
-        self.teaspoon_number_text = (str(self.teaspoon_number) + " Teaspoon(es)")
+        self.teaspoon_number_text.clear()
+        self.teaspoon_number_text.append(str(self.teaspoon_number) + " Teaspoon(es)")
 #myGui = Gui()
