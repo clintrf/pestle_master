@@ -43,8 +43,10 @@ class Gui(object):
         self.dispensing_window = Window(self.option_window, title="Dispensing")
         self.dispensing_window.hide()  # hide this window for now
         self.app.set_full_screen()
-        self.welcome_message = Text(self.app, text="Pestle Co.", size=40, font="Times New Roman", color="blue")
-        self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start", width=60, height=10s)
+        self.welcome_message = Text(self.app, text="Pestle Co.", size=70, font="Times New Roman", color="blue")
+        self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start", width=40, height=10)
+        self.start_button.text_color=(205,133,0)
+        self.start_button.text_size=40
 
         # Option page
         self.salt_button = PushButton(self.option_window, command=self.open_salt_dispensing_window, text="Salt",

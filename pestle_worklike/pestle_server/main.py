@@ -51,14 +51,14 @@ if __name__ == "__main__":
     
     if os.uname()[1] == 'pestle-spice-dispenser':
         print('1')
-        dispenser = Dispenser()
+        dispenser = TestDispenser()
         
     else:
         # This is a test running on a desktop
-        dispenser = Dispenser()
-    print("bloop\r\n")
+        dispenser = TestDispenser()
+
     myGui = Gui()
-    print("aloop\r\n")
+    #print("aloop\r\n")
     if myGui.ready_to_dispense:
         
         dispenser.dispense(myGui.get_slot_id, myGui.get_amount_in_grams)
