@@ -3,27 +3,32 @@ from guizero import App, Text, Window, PushButton
 from dispenser import TestDispenser, Dispenser
 
 # Constants used by the app
-GRAMS_SALT_PER_TEASPOON = 5.69
-GRAMS_PEPPER_PER_TEASPOON = 2.1
-SMIDGENS_PER_TEASPOON = 32
-PINCHES_PER_TEASPOON = 16
-DASHES_PER_TEASPOON = 8
-SALT_DISPENSING_TEXT = "Salt Dispensing"
-PEPPER_DISPENSING_TEXT = "Pepper Dispensing"
+GRAMS_SALT_PER_CUP = 273
+GRAMS_FLOUR_PER_CUP = 120
+GRAMS_SUGAR_PER_CUP = 200
+CUPS_PER_CUP = 1
+HALF_CUPES_PER_CUP = 2
+FOURTH_CUPES_PER_CUP = 4
+EIGHTH_CUPES_PER_CUP = 8
+TEASPOON_PER_CUP = 48
 
+SALT_DISPENSING_TEXT = "Salt Dispensing"
+FLOUR_DISPENSING_TEXT = "Flour Dispensing"
+SUGAR_DISPENSING_TEXT = "Sugar Dispensing"
 
 class Spices(Enum):
     SALT = 0
-    PEPPER = 1
+    FLOUR = 1
+    SUGAR = 2
 
 
 class Gui(object):
     def __init__(self):
         
         self.dispenser = Dispenser()
-        self.smidgen_number = 0
-        self.pinch_number = 0
-        self.dash_number = 0
+        self.cup_number = 0
+        self.half_cup_number = 0
+        self.eighth_cup_number = 0
         self.teaspoon_number = 0
         self.dispensing_id = Spices.SALT  # Default: id is salt (0)
         self.dispensing_id_text = SALT_DISPENSING_TEXT  # Default: salt
@@ -39,25 +44,31 @@ class Gui(object):
         self.dispensing_window.hide()  # hide this window for now
         self.app.set_full_screen()
         self.welcome_message = Text(self.app, text="Pestle Co.", size=40, font="Times New Roman", color="blue")
-        self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start")
+        self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start", width=60, height=10s)
 
         # Option page
         self.salt_button = PushButton(self.option_window, command=self.open_salt_dispensing_window, text="Salt",
                                       align="top")
-        self.pepper_button = PushButton(self.option_window, command=self.open_pepper_dispensing_window, text="Pepper",
+        self.flour_button = PushButton(self.option_window, command=self.open_flour_dispensing_window, text="Flour",
+                                        align="top")
+        self.sugar_button = PushButton(self.option_window, command=self.open_sugar_dispensing_window, text="Sugar",
                                         align="top")
         self.done_button = PushButton(self.option_window, command=self.close_option_window, text="Done", align="bottom")
 
         # Dispensing page
         self.dispensing_text = Text(self.dispensing_window, text=self.dispensing_id_text)
-        self.smidgen_button = PushButton(self.dispensing_window, command=self.add_a_smidgen, text="Smidgen")
-        self.smidgen_number_text = Text(self.dispensing_window, text=str(self.smidgen_number) + " Smidgen(s)")
-        self.pinch_button = PushButton(self.dispensing_window, command=self.add_a_pinch, text="Pinch")
-        self.pinch_number_text = Text(self.dispensing_window, text=str(self.pinch_number) + " Pinch(es)")
-        self.dash_button = PushButton(self.dispensing_window, command=self.add_a_dash, text="Dash")
-        self.dash_number_text = Text(self.dispensing_window, text=str(self.dash_number) + " Dash(es)")
+        self.cup_button = PushButton(self.dispensing_window, command=self.add_a_cup, text="Cup")
+        self.cup_number_text = Text(self.dispensing_window, text=str(self.cup_number) + " Cups(s)")
+        
+        self.half_cup_button = PushButton(self.dispensing_window, command=self.add_a_half_cup, text="Half Cup")
+        self.half_cup_number_text = Text(self.dispensing_window, text=str(self.half_cup_number) + " Half_cup(es)")
+        
+        self.eighth_cup_button = PushButton(self.dispensing_window, command=self.add_a_eighth_cup, text="Eighth_cup")
+        self.eighth_cup_number_text = Text(self.dispensing_window, text=str(self.eighth_cup_number) + " Eighth_cup(es)")
+        
         self.teaspoon_button = PushButton(self.dispensing_window, command=self.add_a_teaspoon, text="Teaspoon")
         self.teaspoon_number_text = Text(self.dispensing_window, text=str(self.teaspoon_number) + " Teaspoon(s)")
+        
         self.dispense_button = PushButton(self.dispensing_window, command=self.final_dispense, text="Dispense",
                                           align="bottom")
         self.reset_button = PushButton(self.dispensing_window, command=self.reset_measurement, text="Reset",
@@ -65,7 +76,7 @@ class Gui(object):
         # STOP
         print("here")
         self.app.display()
-        print("here1")
+        
         # Helper functions: windows
     def open_option_window(self):
         self.option_window.show(wait=True)
@@ -91,34 +102,39 @@ class Gui(object):
         self.dispensing_text.append(self.dispensing_id_text)
         self.open_dispensing_window()
 
-    def open_pepper_dispensing_window(self):
-        print("in pep")
-        self.dispensing_id_text = PEPPER_DISPENSING_TEXT
+    def open_flour_dispensing_window(self):
+        self.dispensing_id_text = FLOUR_DISPENSING_TEXT
+        self.dispensing_text.clear()
+        self.dispensing_text.append(self.dispensing_id_text)
+        self.open_dispensing_window()
+       
+    def open_sugar_dispensing_window(self):
+        self.dispensing_id_text = SUGAR_DISPENSING_TEXT
         self.dispensing_text.clear()
         self.dispensing_text.append(self.dispensing_id_text)
         self.open_dispensing_window()
 
     # Helper functions: dispensing
-    def add_a_smidgen(self):
-        self.smidgen_number += 1
-        self.smidgen_number_text.clear()
-        self.smidgen_number_text.append(str(self.smidgen_number) + " Smidgen(s)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/SMIDGENS_PER_TEASPOON if self.dispensing_id == Spices.SALT \
-            else GRAMS_PEPPER_PER_TEASPOON/SMIDGENS_PER_TEASPOON
+    def add_a_cup(self):
+        self.cup_number += 1
+        self.cup_number_text.clear()
+        self.cup_number_text.append(str(self.cup_number) + " cup(s)")
+        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/CUPS_PER_TEASPOON if self.dispensing_id == Spices.SALT \
+            else GRAMS_PEPPER_PER_TEASPOON/CUPS_PER_TEASPOON
 
-    def add_a_pinch(self):
-        self.pinch_number += 1
-        self.pinch_number_text.clear()
-        self.pinch_number_text.append(str(self.pinch_number) + " Pinch(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/PINCHES_PER_TEASPOON if self.dispensing_id == Spices.SALT \
-            else GRAMS_PEPPER_PER_TEASPOON/PINCHES_PER_TEASPOON
+    def add_a_half_cup(self):
+        self.half_cup_number += 1
+        self.half_cup_number_text.clear()
+        self.half_cup_number_text.append(str(self.half_cup_number) + " Half_cup(es)")
+        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/HALF_CUPES_PER_TEASPOON if self.dispensing_id == Spices.SALT \
+            else GRAMS_PEPPER_PER_TEASPOON/HALF_CUPES_PER_TEASPOON
 
-    def add_a_dash(self):
-        self.dash_number += 1
-        self.dash_number_text.clear()
-        self.dash_number_text.append(str(self.dash_number) + " Dash(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/DASHES_PER_TEASPOON if self.dispensing_id == Spices.SALT \
-            else GRAMS_PEPPER_PER_TEASPOON/DASHES_PER_TEASPOON
+    def add_a_eighth_cup(self):
+        self.eighth_cup_number += 1
+        self.eighth_cup_number_text.clear()
+        self.eighth_cup_number_text.append(str(self.eighth_cup_number) + " Eighth_cup(es)")
+        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON if self.dispensing_id == Spices.SALT \
+            else GRAMS_PEPPER_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON
 
     def add_a_teaspoon(self):
         self.teaspoon_number += 1
@@ -144,15 +160,15 @@ class Gui(object):
         return self.dispensing_amount
 
     def reset_measurement(self):
-        self.smidgen_number = 0
-        self.smidgen_number_text.clear()
-        self.smidgen_number_text.append(str(self.smidgen_number) + " Smidgen(s)")
-        self.pinch_number = 0
-        self.pinch_number_text.clear()
-        self.pinch_number_text.append(str(self.pinch_number) + " Pinch(es)")
-        self.dash_number = 0
-        self.dash_number_text.clear()
-        self.dash_number_text.append(str(self.dash_number) + " Dash(es)")
+        self.cup_number = 0
+        self.cup_number_text.clear()
+        self.cup_number_text.append(str(self.cup_number) + " Cup(s)")
+        self.half_cup_number = 0
+        self.half_cup_number_text.clear()
+        self.half_cup_number_text.append(str(self.half_cup_number) + " Half Cup(es)")
+        self.eighth_cup_number = 0
+        self.eighth_cup_number_text.clear()
+        self.eighth_cup_number_text.append(str(self.eighth_cup_number) + " Eighth Cup(es)")
         self.teaspoon_number = 0
         self.teaspoon_number_text.clear()
         self.teaspoon_number_text.append(str(self.teaspoon_number) + " Teaspoon(es)")
