@@ -37,7 +37,7 @@ class Gui(object):
         self.option_window.hide()  # hide this window for now
         self.dispensing_window = Window(self.option_window, title="Dispensing")
         self.dispensing_window.hide()  # hide this window for now
-        #self.app.set_full_screen()
+        self.app.set_full_screen()
         self.welcome_message = Text(self.app, text="Pestle Co.", size=40, font="Times New Roman", color="blue")
         self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start")
 
@@ -69,7 +69,7 @@ class Gui(object):
         # Helper functions: windows
     def open_option_window(self):
         self.option_window.show(wait=True)
-        #self.option_window.set_full_screen()
+        self.option_window.set_full_screen()
 
     def close_option_window(self):
         self.option_window.exit_full_screen()
@@ -78,12 +78,12 @@ class Gui(object):
 
     def open_dispensing_window(self):
         self.dispensing_window.show(wait=True)
-        #self.dispensing_window.set_full_screen()
+        self.dispensing_window.set_full_screen()
 
     def close_dispensing_window(self):
         self.dispensing_window.exit_full_screen()
         self.dispensing_window.hide()
-        #self.open_option_window()
+        self.open_option_window()
 
     def open_salt_dispensing_window(self):
         self.dispensing_id_text = SALT_DISPENSING_TEXT
