@@ -1,5 +1,6 @@
 from enum import Enum
 from guizero import App, Text, Window, PushButton
+from dispenser import TestDispenser, Dispenser
 
 # Constants used by the app
 GRAMS_SALT_PER_TEASPOON = 5.69
@@ -18,6 +19,8 @@ class Spices(Enum):
 
 class Gui(object):
     def __init__(self):
+        
+        self.dispenser = Dispenser()
         self.smidgen_number = 0
         self.pinch_number = 0
         self.dash_number = 0
@@ -26,7 +29,7 @@ class Gui(object):
         self.dispensing_id_text = SALT_DISPENSING_TEXT  # Default: salt
         self.dispensing_amount = 0
         self.dispensing_flag = False
-
+        
         self.app = App(title="Pestle Co.")
         # All code must be added in th event loop
         # START
@@ -60,8 +63,9 @@ class Gui(object):
         self.reset_button = PushButton(self.dispensing_window, command=self.reset_measurement, text="Reset",
                                        align="bottom")
         # STOP
+        print("here")
         self.app.display()
-
+        print("here1")
         # Helper functions: windows
     def open_option_window(self):
         self.option_window.show(wait=True)
@@ -79,7 +83,7 @@ class Gui(object):
     def close_dispensing_window(self):
         self.dispensing_window.exit_full_screen()
         self.dispensing_window.hide()
-        self.open_option_window()
+        #self.open_option_window()
 
     def open_salt_dispensing_window(self):
         self.dispensing_id_text = SALT_DISPENSING_TEXT
@@ -88,6 +92,7 @@ class Gui(object):
         self.open_dispensing_window()
 
     def open_pepper_dispensing_window(self):
+        print("in pep")
         self.dispensing_id_text = PEPPER_DISPENSING_TEXT
         self.dispensing_text.clear()
         self.dispensing_text.append(self.dispensing_id_text)
@@ -97,7 +102,7 @@ class Gui(object):
     def add_a_smidgen(self):
         self.smidgen_number += 1
         self.smidgen_number_text.clear()
-        self.smidgen_number_text.append(str(self.smidgen_number) + "Smidgen(s)")
+        self.smidgen_number_text.append(str(self.smidgen_number) + " Smidgen(s)")
         self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/SMIDGENS_PER_TEASPOON if self.dispensing_id == Spices.SALT \
             else GRAMS_PEPPER_PER_TEASPOON/SMIDGENS_PER_TEASPOON
 
@@ -123,9 +128,11 @@ class Gui(object):
             else GRAMS_PEPPER_PER_TEASPOON
 
     def final_dispense(self):
+        print("in final")
         self.dispensing_flag = True
+        self.dispenser.dispense(self.dispensing_id, self.dispensing_amount);
         self.close_dispensing_window()  # Return to the dispensing window
-        self.open_option_window()  # Return to the option window
+        #self.open_option_window()  # Return to the option windowho
 
     def ready_to_dispense(self):
         return self.dispensing_flag

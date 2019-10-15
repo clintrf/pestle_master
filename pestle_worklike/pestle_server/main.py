@@ -11,6 +11,7 @@ from gui import Spices, Gui
 
 #app = Sanic()
 app = Flask(__name__)
+#app = App(title="Pestle Coc.")
 
 dispenser = None
 
@@ -35,6 +36,7 @@ def dispense(slot_id = 0, amount = 0):
     slot_id = int(slot_id)
     dispenser.dispense(slot_id, amount_in_grams)
     #return json({'data': {'slot_id': slot_id,'amount': amount_in_grams}})
+    print("in dispense loop")
     return ''
 
 @app.route('/api/<amount>')
@@ -46,16 +48,19 @@ def test(amount = 0):
 
 
 if __name__ == "__main__":
-    print('1')
+    
     if os.uname()[1] == 'pestle-spice-dispenser':
-        dispenser = TestDispenser()
+        print('1')
+        dispenser = Dispenser()
         
     else:
         # This is a test running on a desktop
-        dispenser = TestDispenser()
-
+        dispenser = Dispenser()
+    print("bloop\r\n")
     myGui = Gui()
+    print("aloop\r\n")
     if myGui.ready_to_dispense:
+        
         dispenser.dispense(myGui.get_slot_id, myGui.get_amount_in_grams)
         myGui.dispensing_flag = False
 

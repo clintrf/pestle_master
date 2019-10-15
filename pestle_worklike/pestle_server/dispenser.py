@@ -3,7 +3,7 @@ import os
 import time
 
 import RPi.GPIO as GPIO
-import l293d.driver as l293d
+#import l293d.driver as l293d
 from hx711 import HX711
 
 
@@ -43,7 +43,7 @@ class Dispenser(DispenserInterface):
         # Set the pins for the scale. Pins are in GPIO.BCM mode
         self._hx = HX711(5, 6)
         # Set and initialize the pins for the 2 motors
-        GPIO.setmode(GPIO.BCM)
+        #GPIO.setmode(GPIO.BCM)
         GPIO.setup(L293D_INPUT1_PIN, GPIO.OUT, initial=GPIO.HIGH)
         GPIO.setup(L293D_INPUT2_PIN, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(L293D_ENB_PIN, GPIO.OUT)
@@ -55,12 +55,14 @@ class Dispenser(DispenserInterface):
         # If 2000 grams is 184000 then 1 gram is 184000 / 2000 = 92.
         # hx.set_reference_unit(92)
         # hx.set_reference_unit(calibrateInGrams(self.weight))
-        self._hx.set_reference_unit(14550)
+        self._hx.set_reference_unit(3038)
 
         # Reset and tare scale
         self._hx.reset()
         self._hx.tare()
-        print('Tare done!')
+        #while(1):
+        #    print(self._hx.get_weight(5))
+        #print('Tare done!')
 
     def clean_and_exit(self):
         print('Cleaning...')
@@ -69,21 +71,28 @@ class Dispenser(DispenserInterface):
         sys.exit()
 
     def dispense(self, slot_idx, amount):
-        print('Dispensing %0.2f grams from slot %d' % (amount, slot_idx))
+        #print('Dispensing %0.2f grams from slot %d' % (amount, slot_idx))
+        #print(amount + " "  + "\r\n")
 
+        self._hx.tare()
         if slot_idx == 0:  # if it's salt
             motor_pin = L293D_ENB_PIN
         elif slot_idx == 1:  # if it's pepper
             motor_pin = L293D_ENB_PIN
         else:
-            return 0
+            motor_pin = L293D_ENB_PIN
+            #return 0
+        print("motor should be going")
 
         motor = GPIO.PWM(motor_pin,50) # pwm frequency: 50hz
         val = self._hx.get_weight(5)
+        print(amount)
         while val <= amount:
+            val = self._hx.get_weight(5)
             print(val)
-            motor.start(50)  # duty cycle: check to see if we need to increase the param
+            motor.start(70)  # duty cycle: check to see if we need to increase the param
         motor.stop()
+        
         #print("Finished dispensing %0.2f grams of from slot %d"% (amount, slot_idx))
 
     def calibrate_in_grams(self, weight=100):
