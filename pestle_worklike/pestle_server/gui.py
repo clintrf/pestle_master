@@ -50,21 +50,21 @@ class Gui(object):
 
         # Option page
         self.salt_button = PushButton(self.option_window, command=self.open_salt_dispensing_window, text="Salt",
-                                      align="top", width=15, height=5)
+                                      align="top", width=10, height=2)
         self.salt_button.text_color=(205,133,0)
         self.salt_button.text_size=20
         
         self.flour_button = PushButton(self.option_window, command=self.open_flour_dispensing_window, text="Flour",
-                                        align="top", width=15, height=5)
+                                        align="top", width=10, height=2)
         self.flour_button.text_color=(205,133,0)
         self.flour_button.text_size=20
         
         self.sugar_button = PushButton(self.option_window, command=self.open_sugar_dispensing_window, text="Sugar",
-                                        align="top", width=15, height=5)
+                                        align="top", width=10, height=2)
         self.sugar_button.text_color=(205,133,0)
         self.sugar_button.text_size=20
         
-        self.done_button = PushButton(self.option_window, command=self.close_option_window, text="Done", align="bottom", width=30, height=10)
+        self.done_button = PushButton(self.option_window, command=self.close_option_window, text="Done", align="bottom", width=10, height=2)
         self.done_button.text_color=(205,133,0)
         self.done_button.text_size=20
         
