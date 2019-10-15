@@ -44,32 +44,51 @@ class Gui(object):
         self.dispensing_window.hide()  # hide this window for now
         self.app.set_full_screen()
         self.welcome_message = Text(self.app, text="Pestle Co.", size=70, font="Times New Roman", color="blue")
-        self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start", width=40, height=10)
+        self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start", width=30, height=10)
         self.start_button.text_color=(205,133,0)
-        self.start_button.text_size=40
+        self.start_button.text_size=30
 
         # Option page
         self.salt_button = PushButton(self.option_window, command=self.open_salt_dispensing_window, text="Salt",
-                                      align="top")
+                                      align="top", width=30, height=10)
+        self.salt_button.text_color=(205,133,0)
+        self.salt_button.text_size=20
+        
         self.flour_button = PushButton(self.option_window, command=self.open_flour_dispensing_window, text="Flour",
-                                        align="top")
+                                        align="top", width=30, height=10)
+        self.flour_button.text_color=(205,133,0)
+        self.flour_button.text_size=20
+        
         self.sugar_button = PushButton(self.option_window, command=self.open_sugar_dispensing_window, text="Sugar",
-                                        align="top")
-        self.done_button = PushButton(self.option_window, command=self.close_option_window, text="Done", align="bottom")
-
+                                        align="top", width=30, height=10)
+        self.sugar_button.text_color=(205,133,0)
+        self.sugar_button.text_size=20
+        
+        self.done_button = PushButton(self.option_window, command=self.close_option_window, text="Done", align="bottom", width=30, height=10)
+        self.done_button.text_color=(205,133,0)
+        self.done_button.text_size=20
+        
         # Dispensing page
         self.dispensing_text = Text(self.dispensing_window, text=self.dispensing_id_text)
         self.cup_button = PushButton(self.dispensing_window, command=self.add_a_cup, text="Cup")
         self.cup_number_text = Text(self.dispensing_window, text=str(self.cup_number) + " Cups(s)")
+        self.cup_button.text_color=(205,133,0)
+        self.cup_button.text_size=20
         
         self.half_cup_button = PushButton(self.dispensing_window, command=self.add_a_half_cup, text="Half Cup")
         self.half_cup_number_text = Text(self.dispensing_window, text=str(self.half_cup_number) + " Half_cup(es)")
+        self.half_cup_button.text_color=(205,133,0)
+        self.half_cup_button.text_size=20
         
         self.eighth_cup_button = PushButton(self.dispensing_window, command=self.add_a_eighth_cup, text="Eighth_cup")
         self.eighth_cup_number_text = Text(self.dispensing_window, text=str(self.eighth_cup_number) + " Eighth_cup(es)")
+        self.eighth_cup_button.text_color=(205,133,0)
+        self.eighth_cup_button.text_size=20
         
         self.teaspoon_button = PushButton(self.dispensing_window, command=self.add_a_teaspoon, text="Teaspoon")
         self.teaspoon_number_text = Text(self.dispensing_window, text=str(self.teaspoon_number) + " Teaspoon(s)")
+        self.teaspoon_button.text_color=(205,133,0)
+        self.teaspoon_button.text_size=20
         
         self.dispense_button = PushButton(self.dispensing_window, command=self.final_dispense, text="Dispense",
                                           align="bottom")
