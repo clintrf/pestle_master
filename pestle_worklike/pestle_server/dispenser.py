@@ -3,7 +3,7 @@ import os
 import time
 
 import RPi.GPIO as GPIO
-#import l293d.driver as l293d
+# import l293d.driver as l293d
 from hx711 import HX711
 
 
