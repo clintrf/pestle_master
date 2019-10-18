@@ -174,11 +174,11 @@ class Gui(object):
         self.cup_number_text.clear()
         self.cup_number_text.append(str(self.cup_number) + " cup(s)")
         if(self.dispensing_id == Ingredients.FLOUR)
-            self.dispensing_amount += GRAMS_FLOUR_PER_TEASPOON/CUPS_PER_TEASPOON
+            self.dispensing_amount += GRAMS_FLOUR_PER_CUP/CUPS_PER_CUP
         elif(self.dispensing_id == Ingredients.SUGAR)
-            self.dispensing_amount += GRAMS_PEPPER_PER_TEASPOON/CUPS_PER_TEASPOON
+            self.dispensing_amount += GRAMS_SUGAR_PER_CUP/CUPS_PER_CUP
         elif(self.dispensing_id == Ingredients.SALT)
-            self.dispensing_amount += GRAMS_PEPPER_PER_TEASPOON/CUPS_PER_TEASPOON
+            self.dispensing_amount += GRAMS_SALT_PER_CUP/CUPS_PER_CUP
         else
             self.dispensing_amount += 0;
 
@@ -186,43 +186,79 @@ class Gui(object):
         self.half_cup_number += 1
         self.half_cup_number_text.clear()
         self.half_cup_number_text.append(str(self.half_cup_number) + " Half_cup(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/HALF_CUPES_PER_TEASPOON if self.dispensing_id == Ingredients.SALT \
-            else GRAMS_PEPPER_PER_TEASPOON/HALF_CUPES_PER_TEASPOON
+        if(self.dispensing_id == Ingredients.FLOUR)
+            self.dispensing_amount += GRAMS_FLOUR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SUGAR)
+            self.dispensing_amount += GRAMS_SUGAR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SALT)
+            self.dispensing_amount += GRAMS_SALT_PER_CUP/CUPS_PER_CUP
+        else
+            self.dispensing_amount += 0;
 
     def add_a_third_cup(self):
         self.third_cup_number += 1
         self.third_cup_number_text.clear()
         self.third_cup_number_text.append(str(self.third_cup_number) + " Third_cup(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON if self.dispensing_id == Ingredients.SALT \
-            else GRAMS_PEPPER_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON
+        if(self.dispensing_id == Ingredients.FLOUR)
+            self.dispensing_amount += GRAMS_FLOUR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SUGAR)
+            self.dispensing_amount += GRAMS_SUGAR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SALT)
+            self.dispensing_amount += GRAMS_SALT_PER_CUP/CUPS_PER_CUP
+        else
+            self.dispensing_amount += 0;
         
     def add_a_fourth_cup(self):
         self.fourth_cup_number += 1
         self.fourth_cup_number_text.clear()
         self.fourth_cup_number_text.append(str(self.fourth_cup_number) + " Fourth_cup(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON if self.dispensing_id == Ingredients.SALT \
-            else GRAMS_PEPPER_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON
+        if(self.dispensing_id == Ingredients.FLOUR)
+            self.dispensing_amount += GRAMS_FLOUR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SUGAR)
+            self.dispensing_amount += GRAMS_SUGAR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SALT)
+            self.dispensing_amount += GRAMS_SALT_PER_CUP/CUPS_PER_CUP
+        else
+            self.dispensing_amount += 0;
         
     def add_a_eighth_cup(self):
         self.eighth_cup_number += 1
         self.eighth_cup_number_text.clear()
         self.eighth_cup_number_text.append(str(self.eighth_cup_number) + " Eighth_cup(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON if self.dispensing_id == Ingredients.SALT \
-            else GRAMS_PEPPER_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON
+        if(self.dispensing_id == Ingredients.FLOUR)
+            self.dispensing_amount += GRAMS_FLOUR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SUGAR)
+            self.dispensing_amount += GRAMS_SUGAR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SALT)
+            self.dispensing_amount += GRAMS_SALT_PER_CUP/CUPS_PER_CUP
+        else
+            self.dispensing_amount += 0;
 
     def add_a_tablespoon(self):
         self.tablespoon_number += 1
         self.tablespoon_number_text.clear()
         self.tablespoon_number_text.append(str(self.tablespoon_number) + " Tablespoon(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON if self.dispensing_id == Ingredients.SALT \
-            else GRAMS_PEPPER_PER_TEASPOON
+        if(self.dispensing_id == Ingredients.FLOUR)
+            self.dispensing_amount += GRAMS_FLOUR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SUGAR)
+            self.dispensing_amount += GRAMS_SUGAR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SALT)
+            self.dispensing_amount += GRAMS_SALT_PER_CUP/CUPS_PER_CUP
+        else
+            self.dispensing_amount += 0;
         
     def add_a_teaspoon(self):
         self.teaspoon_number += 1
         self.teaspoon_number_text.clear()
         self.teaspoon_number_text.append(str(self.teaspoon_number) + " Teaspoon(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON if self.dispensing_id == Ingredients.SALT \
-            else GRAMS_PEPPER_PER_TEASPOON
+        if(self.dispensing_id == Ingredients.FLOUR)
+            self.dispensing_amount += GRAMS_FLOUR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SUGAR)
+            self.dispensing_amount += GRAMS_SUGAR_PER_CUP/CUPS_PER_CUP
+        elif(self.dispensing_id == Ingredients.SALT)
+            self.dispensing_amount += GRAMS_SALT_PER_CUP/CUPS_PER_CUP
+        else
+            self.dispensing_amount += 0;
 
     def final_dispense(self):
         print("in final")
