@@ -6,7 +6,7 @@ from flask import request
 from dispenser import TestDispenser, Dispenser
 import os
 import atexit
-from gui import Spices, Gui
+from gui import Ingredient, Unit, Gui
 # from slot_select import SLOT_SELECT
 
 #app = Sanic()

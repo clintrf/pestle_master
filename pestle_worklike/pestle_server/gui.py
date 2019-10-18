@@ -35,7 +35,7 @@ class Unit(Enum):
 class Gui(object):
     def __init__(self):
         
-        self.dispenser = Dispenser()
+        self.dispenser = TestDispenser()
         self.cup_number = 0
         self.half_cup_number = 0
         self.eighth_cup_number = 0
@@ -55,7 +55,7 @@ class Gui(object):
         self.dispensing_window = Window(self.option_window, title="Dispensing")
         self.dispensing_window.hide()  # hide this window for now
         # Set up the welcome window
-        self.app.set_full_screen()
+        #self.app.set_full_screen()
         self.welcome_message = Text(self.app, text="Pestle Co.", size=70, font="Times New Roman", color="blue")
         self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start", width=20, height=5)
         self.start_button.text_color=(205,133,0)
@@ -115,7 +115,7 @@ class Gui(object):
         # Helper functions: windows
     def open_option_window(self):
         self.option_window.show(wait=True)
-        self.option_window.set_full_screen()
+        #self.option_window.set_full_screen()
 
     def close_option_window(self):
         self.option_window.exit_full_screen()
@@ -124,7 +124,7 @@ class Gui(object):
 
     def open_dispensing_window(self):
         self.dispensing_window.show(wait=True)
-        self.dispensing_window.set_full_screen()
+        #self.dispensing_window.set_full_screen()
 
     def close_dispensing_window(self):
         self.dispensing_window.exit_full_screen()
@@ -135,18 +135,21 @@ class Gui(object):
         self.dispensing_id_text = SALT_DISPENSING_TEXT
         self.dispensing_text.clear()
         self.dispensing_text.append(self.dispensing_id_text)
+        self.dispensing_id = Ingredient.SALT
         self.open_dispensing_window()
 
     def open_flour_dispensing_window(self):
         self.dispensing_id_text = FLOUR_DISPENSING_TEXT
         self.dispensing_text.clear()
         self.dispensing_text.append(self.dispensing_id_text)
+        self.dispensing_id = Ingredient.FLOUR
         self.open_dispensing_window()
        
     def open_sugar_dispensing_window(self):
         self.dispensing_id_text = SUGAR_DISPENSING_TEXT
         self.dispensing_text.clear()
         self.dispensing_text.append(self.dispensing_id_text)
+        self.dispensing_id = Ingredient.SUGAR
         self.open_dispensing_window()
 
     def add_dispensing_amount(self, dispensing_id, unit):
@@ -195,23 +198,27 @@ class Gui(object):
         self.teaspoon_number_text.append(str(self.teaspoon_number) + " Teaspoon(s)")
         self.add_dispensing_amount(self.dispensing_id, Unit.TEASPOON)
 
-    def final_dispense(self):
-        print("in final")
-        self.dispensing_flag = True
-        self.dispenser.dispense(self.dispensing_id, self.dispensing_amount)
-        self.close_dispensing_window()  # Return to the dispensing window
-        # self.open_option_window()  # Return to the option window
+
 
     def ready_to_dispense(self):
         return self.dispensing_flag
 
     def get_slot_id(self):
-        return self.dispensing_id
+        print(self.dispensing_id)
+        
+        if(self.dispensing_id == Ingredient.SALT):
+            return 0
+        if(self.dispensing_id == Ingredient.FLOUR):
+            return 1
+        if(self.dispensing_id == Ingredient.SUGAR):
+            return 2
+        #return 0
 
     def get_amount_in_grams(self):
         return self.dispensing_amount
 
     def reset_measurement(self):
+        self.dispensing_amount = 0
         self.cup_number = 0
         self.cup_number_text.clear()
         self.cup_number_text.append(str(self.cup_number) + " Cup(s)")
@@ -225,5 +232,11 @@ class Gui(object):
         self.teaspoon_number_text.clear()
         self.teaspoon_number_text.append(str(self.teaspoon_number) + " Teaspoon(s)")
 
-
+    def final_dispense(self):
+        print("in final")
+        self.dispensing_flag = True
+        self.dispenser.dispense(self.get_slot_id(), self.dispensing_amount)
+        self.reset_measurement()
+        self.close_dispensing_window()  # Return to the dispensing window
+        self.open_option_window()  # Return to the option window
 # myGui = Gui()
