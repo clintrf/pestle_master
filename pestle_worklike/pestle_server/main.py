@@ -3,7 +3,7 @@
 from flask import Flask
 from flask import request
 
-from dispenser import TestDispenser, Dispenser
+from dispenser import TestDispenser#, Dispenser
 import os
 import atexit
 from gui import Spices, Gui

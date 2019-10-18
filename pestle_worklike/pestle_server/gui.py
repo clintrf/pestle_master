@@ -1,6 +1,6 @@
 from enum import Enum
 from guizero import App, Text, Window, PushButton
-from dispenser import TestDispenser, Dispenser
+from dispenser import TestDispenser
 
 # Constants used by the app
 GRAMS_SALT_PER_CUP = 273
@@ -12,25 +12,35 @@ FOURTH_CUPES_PER_CUP = 4
 EIGHTH_CUPES_PER_CUP = 8
 TEASPOON_PER_CUP = 48
 
-SALT_DISPENSING_TEXT = "Salt Dispensing"
 FLOUR_DISPENSING_TEXT = "Flour Dispensing"
 SUGAR_DISPENSING_TEXT = "Sugar Dispensing"
+SALT_DISPENSING_TEXT = "Salt Dispensing"
+BAKING_POWER_DISPENSING_TEXT = "Baking Power Dispensing"
+BAKING_SODA_DISPENSING_TEXT = "Baking Soda Dispensing"
+COCO_DISPENSING_TEXT = "Coco Dispensing"
+OATS_DISPENSING_TEXT = "Oats Dispensing"
 
-class Spices(Enum):
-    SALT = 0
-    FLOUR = 1
-    SUGAR = 2
+
+class Ingredients(Enum):
+    FLOUR = 0
+    SUGAR = 1
+    SALT = 2
+    BAKING_POWER = 3
+    BAKING_SODA = 4
+    COCO = 5
+    OATS = 6
+    
 
 
 class Gui(object):
     def __init__(self):
         
-        self.dispenser = Dispenser()
+        self.dispenser = TestDispenser
         self.cup_number = 0
         self.half_cup_number = 0
         self.eighth_cup_number = 0
         self.teaspoon_number = 0
-        self.dispensing_id = Spices.SALT  # Default: id is salt (0)
+        self.dispensing_id = Ingredients.FLOUR  # Default: id is salt (0)
         self.dispensing_id_text = SALT_DISPENSING_TEXT  # Default: salt
         self.dispensing_amount = 0
         self.dispensing_flag = False
@@ -42,7 +52,7 @@ class Gui(object):
         self.option_window.hide()  # hide this window for now
         self.dispensing_window = Window(self.option_window, title="Dispensing")
         self.dispensing_window.hide()  # hide this window for now
-        self.app.set_full_screen()
+        #self.app.set_full_screen()
         self.welcome_message = Text(self.app, text="Pestle Co.", size=70, font="Times New Roman", color="blue")
         self.start_button = PushButton(self.app, command=self.open_option_window, text="Push to Start", width=20, height=5)
         self.start_button.text_color=(205,133,0)
@@ -101,7 +111,7 @@ class Gui(object):
         # Helper functions: windows
     def open_option_window(self):
         self.option_window.show(wait=True)
-        self.option_window.set_full_screen()
+        #self.option_window.set_full_screen()
 
     def close_option_window(self):
         self.option_window.exit_full_screen()
@@ -110,7 +120,7 @@ class Gui(object):
 
     def open_dispensing_window(self):
         self.dispensing_window.show(wait=True)
-        self.dispensing_window.set_full_screen()
+        #self.dispensing_window.set_full_screen()
 
     def close_dispensing_window(self):
         self.dispensing_window.exit_full_screen()
@@ -140,28 +150,29 @@ class Gui(object):
         self.cup_number += 1
         self.cup_number_text.clear()
         self.cup_number_text.append(str(self.cup_number) + " cup(s)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/CUPS_PER_TEASPOON if self.dispensing_id == Spices.SALT \
+        if(self.dispensing_id == Ingredients.SALT)
+            self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/CUPS_PER_TEASPOON if self.dispensing_id == Ingredients.SALT \
             else GRAMS_PEPPER_PER_TEASPOON/CUPS_PER_TEASPOON
 
     def add_a_half_cup(self):
         self.half_cup_number += 1
         self.half_cup_number_text.clear()
         self.half_cup_number_text.append(str(self.half_cup_number) + " Half_cup(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/HALF_CUPES_PER_TEASPOON if self.dispensing_id == Spices.SALT \
+        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/HALF_CUPES_PER_TEASPOON if self.dispensing_id == Ingredients.SALT \
             else GRAMS_PEPPER_PER_TEASPOON/HALF_CUPES_PER_TEASPOON
 
     def add_a_eighth_cup(self):
         self.eighth_cup_number += 1
         self.eighth_cup_number_text.clear()
         self.eighth_cup_number_text.append(str(self.eighth_cup_number) + " Eighth_cup(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON if self.dispensing_id == Spices.SALT \
+        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON if self.dispensing_id == Ingredients.SALT \
             else GRAMS_PEPPER_PER_TEASPOON/EIGHTH_CUPES_PER_TEASPOON
 
     def add_a_teaspoon(self):
         self.teaspoon_number += 1
         self.teaspoon_number_text.clear()
         self.teaspoon_number_text.append(str(self.teaspoon_number) + " Teaspoon(es)")
-        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON if self.dispensing_id == Spices.SALT \
+        self.dispensing_amount += GRAMS_SALT_PER_TEASPOON if self.dispensing_id == Ingredients.SALT \
             else GRAMS_PEPPER_PER_TEASPOON
 
     def final_dispense(self):
