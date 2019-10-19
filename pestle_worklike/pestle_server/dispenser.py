@@ -8,9 +8,17 @@ from hx711 import HX711
 
 
 # Pins are in GPIO.BCM mode
-L293D_ENB_PIN = 22
-L293D_INPUT1_PIN = 27
-L293D_INPUT2_PIN = 17
+L293D_ENB_M1_PIN = 17
+L293D_INPUT1_M1_PIN = 27
+L293D_INPUT2_M1_PIN = 22
+
+L293D_ENB_M2_PIN = 18
+L293D_INPUT1_M2_PIN = 16
+L293D_INPUT2_M2_PIN = 12
+
+L293D_ENB_M3_PIN = 13
+L293D_INPUT1_M3_PIN = 13
+L293D_INPUT2_M3_PIN = 26
 
 
 class DispenserInterface(object):
@@ -44,9 +52,16 @@ class Dispenser(DispenserInterface):
         self._hx = HX711(5, 6)
         # Set and initialize the pins for the 2 motors
         #GPIO.setmode(GPIO.BCM)
-        GPIO.setup(L293D_INPUT1_PIN, GPIO.OUT, initial=GPIO.HIGH)
-        GPIO.setup(L293D_INPUT2_PIN, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(L293D_ENB_PIN, GPIO.OUT)
+        
+        GPIO.setup(L293D_INPUT1_M1_PIN, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(L293D_INPUT2_M1_PIN, GPIO.OUT, initial=GPIO.LOW)
+
+        GPIO.setup(L293D_INPUT1_M2_PIN, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(L293D_INPUT2_M2_PIN, GPIO.OUT, initial=GPIO.LOW)
+        
+        GPIO.setup(L293D_INPUT1_M3_PIN, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(L293D_INPUT2_M3_PIN, GPIO.OUT, initial=GPIO.LOW)
 
         # Set the read in format for first the Pi and then the Hx711 board (MSB/LSB most/least sig bit)
         self._hx.set_reading_format("MSB", "MSB")
@@ -76,21 +91,23 @@ class Dispenser(DispenserInterface):
 
         self._hx.tare()
         if slot_idx == 0:  # if it's salt
-            motor_pin = L293D_ENB_PIN
+            motor_pin = L293D_ENB_M1_PIN
         elif slot_idx == 1:  # if it's pepper
-            motor_pin = L293D_ENB_PIN
+            motor_pin = L293D_ENB_M2_PIN
+        elif slot_idx == 2:
+            motor_pin = L293D_ENB_M3_PIN
         else:
-            motor_pin = L293D_ENB_PIN
-            #return 0
-        print("motor should be going")
+            print("motor should not be going")
 
         motor = GPIO.PWM(motor_pin,50) # pwm frequency: 50hz
         val = self._hx.get_weight(5)
+        val = 0
         print(amount)
         while val <= amount:
             val = self._hx.get_weight(5)
             print(val)
             motor.start(70)  # duty cycle: check to see if we need to increase the param
+            val= val+1
         motor.stop()
         
         #print("Finished dispensing %0.2f grams of from slot %d"% (amount, slot_idx))
